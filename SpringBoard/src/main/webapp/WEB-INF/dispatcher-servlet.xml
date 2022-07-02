@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	   <!-- <bean id="/helloSpring" class="Pkg.Boards.Controller.BoardController"/> -->
+	   <!-- <context:component-scan base-package="Pkg.Boards.*"></context:component-scan> -->
+   <context:component-scan base-package="Pkg.Admin.*"></context:component-scan> <!-- Component Bean 객체 찾기 -->
+   <mvc:annotation-driven></mvc:annotation-driven> <!-- Controller 어노테이션 감지 -->
+   <mvc:resources location="/WEB-INF/resources/" mapping="/jscss/**"></mvc:resources> <!-- location 폴더 위치 -->
+   
+   <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+      <property name="prefix" value="/WEB-INF/views/"></property>
+      <property name="suffix" value=".jsp"></property>
+   </bean>
+   
+   
+   <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+     <property value="oracle.jdbc.driver.OracleDriver" name="driverClassName" />
+     <property value="jdbc:oracle:thin:@DB202204141134_medium?TNS_ADMIN=/Users/parkheeeun/Wallet_DB202204141134" name="url" />
+     <property value="ADMIN" name="username" />
+     <property value="Vmfhejrxm123" name="password" />
+   </bean>
+   
+   <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+     <property name="dataSource" ref="dataSource" />
+     <!-- <property value="classpath:mybatis-config.xml" name="configLocation" /> -->
+     <property value="classpath:/mapper/**/*.xml" name="mapperLocations" />
+   </bean>
+   
+   <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>    
+    </bean>
+    
+    <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean id="CInterceptor" class="Pkg.Admin.Intercepter.LogInterceptor"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/AdminLogin"/>
+			<mvc:exclude-mapping path="/MissLogin"/>
+			<bean id="loginInterceptor" class="Pkg.Admin.Intercepter.LoginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+    
+</beans>

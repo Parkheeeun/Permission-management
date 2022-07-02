@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="Pkg.Admin.AuthMenus"> 
+
+	
+	<select id = "selectAuthMenuList" resultMap = "Pkg.Admin.maps.AuthMenuMap" 
+					parameterType = "Pkg.Admin.DTO.AuthMenuDTO" statementType = "CALLABLE">
+		{
+			call PKG_ADMIN_MENUAUTH.PROC_SEL_MENU_AUTH(
+				#{authID, jdbcType = VARCHAR, mode = IN}
+				,#{menuID, jdbcType = VARCHAR, mode = IN}
+				,#{result1, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=Pkg.Admin.maps.AuthMenuMap}
+				,#{result2, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=Pkg.Admin.maps.AuthMenuMap}
+			)
+		}
+	</select>
+	
+	<select id = "saveAuthMenu" parameterType = "Pkg.Admin.DTO.AuthMenuDTO" statementType = "CALLABLE">
+		{
+			call PKG_ADMIN_MENUAUTH.PROC_SAVE_MENU_AUTH(
+				#{amID, jdbcType = VARCHAR, mode = IN},
+				#{auth_Sel, jdbcType = VARCHAR, mode = IN},
+				#{auth_Ins, jdbcType = VARCHAR, mode = IN},
+				#{auth_Up, jdbcType = VARCHAR, mode = IN},
+				#{auth_Del, jdbcType = VARCHAR, mode = IN},
+				#{auth_FileUp, jdbcType = VARCHAR, mode = IN},
+				#{auth_FileDn, jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>	
+	
+</mapper>       
