@@ -14,9 +14,9 @@
 </style>
 </head>
 <body>
- <a href="boardsList">게시판리스트</a>
+<!-- <a href="boardsList">게시판리스트</a>
 
-<a href="list">리스트</a> 
+<a href="list">리스트</a> -->
 
 
 <table cellpadding="0px" cellspacing="0px" width="1250px" height="630px" align="center" border="1px" id="authTbl">
@@ -46,7 +46,7 @@
 					<tr>
 						<td width="400px" height="30px" align="center" colspan="2">
 						<input type="submit" value="로그인"/>
-							<a href="AuthManager">로그인</a>
+							<!--  <a href="AuthManager">로그인</a>-->
 						</td>
 					</tr>
 				
